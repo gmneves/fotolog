@@ -1,0 +1,48 @@
+---
+layout: default
+title: "arquivo de fotos"
+permalink: /arquivo/
+---
+
+<div class="archive-container">
+
+  <div class="archive-header-card">
+    <div class="archive-header-title">
+      <h2>🎞️ Arquivo do Fotolog</h2>
+      <span class="archive-count">{{ site.posts.size }} foto(s) registradas</span>
+    </div>
+    <p class="archive-desc">
+      Todas as fotos em proporção vertical 3:4, sem filtros e sem edição, organizadas em ordem cronológica reversa.
+    </p>
+  </div>
+
+  <div class="archive-grid">
+    {% for post in site.posts %}
+      <article class="archive-item">
+        <a href="{{ post.url | relative_url }}" class="archive-thumb-wrap">
+          {% if post.photo %}
+            <img src="{{ post.photo | relative_url }}" alt="{{ post.title }}" class="archive-thumb" loading="lazy">
+          {% else %}
+            <div class="archive-placeholder">📷</div>
+          {% endif %}
+          <div class="archive-date-overlay">{{ post.date | date: "%d/%m/%Y" }}</div>
+        </a>
+        <div class="archive-info">
+          <h3 class="archive-post-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h3>
+          {% if post.location %}
+            <span class="archive-meta">📍 {{ post.location }}</span>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  {% if site.posts.size == 0 %}
+    <div class="empty-state">
+      <p>Nenhuma foto no arquivo ainda.</p>
+    </div>
+  {% endif %}
+
+</div>

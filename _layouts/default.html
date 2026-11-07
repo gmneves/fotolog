@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | absolute_url }}">
+  <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+
+  <!-- Open Graph / Redes Sociais -->
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}">
+  <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  {% if page.photo %}
+  <meta property="og:image" content="{{ page.photo | absolute_url }}">
+  <meta property="og:image:secure_url" content="{{ page.photo | absolute_url }}">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="800">
+  <meta property="og:image:alt" content="{{ page.title | default: site.title }}">
+  {% else %}
+  <meta property="og:image" content="{{ '/assets/og-image.png' | absolute_url }}">
+  <meta property="og:image:secure_url" content="{{ '/assets/og-image.png' | absolute_url }}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.title }}">
+  {% endif %}
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}">
+  <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  {% if page.photo %}
+  <meta name="twitter:image" content="{{ page.photo | absolute_url }}">
+  <meta name="twitter:image:alt" content="{{ page.title | default: site.title }}">
+  {% else %}
+  <meta name="twitter:image" content="{{ '/assets/og-image.png' | absolute_url }}">
+  <meta name="twitter:image:alt" content="{{ site.title }}">
+  {% endif %}
+
+  <!-- Web Fonts: JetBrains Mono + Silkscreen (Pixel vibe) + System Sans (Tahoma/Verdana) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+
+  <div class="flog-wrapper">
+
+    <!-- Top Navigation / Banner -->
+    <header class="flog-header">
+      <div class="header-top">
+        <div class="brand">
+          <a href="{{ '/' | relative_url }}" class="brand-link">
+            <span class="pixel-prefix">::</span> <span class="brand-name">fotolog.net</span><span class="brand-user">/guineves</span>
+          </a>
+        </div>
+        <div class="gold-camera-tag">
+          <span class="star">★</span> GOLD MEMBER
+        </div>
+      </div>
+      <div class="header-sub">
+        <span class="tagline">1 foto por dia · proporção 3:4 · baixa resolução · sem filtros</span>
+      </div>
+      <nav class="flog-nav">
+        <a href="{{ '/' | relative_url }}" class="nav-item">🏠 [ foto de hoje ]</a>
+        <a href="{{ '/arquivo/' | relative_url }}" class="nav-item">🎞️ [ arquivo / miniaturas ]</a>
+        <a href="{{ site.main_site | default: 'https://guineves.com.br' }}" class="nav-item" target="_blank" rel="noopener">👤 [ quem sou eu ↗ ]</a>
+        <a href="{{ site.blog_site | default: 'https://blog.guineves.com.br' }}" class="nav-item" target="_blank" rel="noopener">💻 [ blog tech ↗ ]</a>
+        <a href="{{ site.recipes_site | default: 'https://receitas.guineves.com.br' }}" class="nav-item" target="_blank" rel="noopener">🍲 [ receitas ↗ ]</a>
+        <a href="{{ '/feed.xml' | relative_url }}" class="nav-item">📡 [ rss ]</a>
+      </nav>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flog-main">
+      {{ content }}
+    </main>
+
+    <!-- Footer -->
+    <footer class="flog-footer">
+      <div class="footer-inner">
+        <p>📷 <strong>guineves :: fotolog</strong> — nostalgia pura da web dos anos 2000. Feito com Jekyll & carinho.</p>
+        <p>© <span id="year"></span> Guilherme Neves · Hospedado no GitHub Pages · Sem algoritmos, sem notificações.</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- GoatCounter Analytics -->
+  {% if page.url == "/404.html" %}
+  <script>window.goatcounter = { path: (p) => '404/' + location.host + p };</script>
+  {% else %}
+  <script>window.goatcounter = { path: (p) => location.host + p };</script>
+  {% endif %}
+  <script data-goatcounter="https://guineves.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
