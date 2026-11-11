@@ -1,0 +1,41 @@
+title: "guineves :: fotolog"
+tagline: "1 foto por dia. 3:4 crua. sem edicao."
+description: "Fotolog do Gui — fotos cruas em proporção 3:4, baixa resolução e crônicas do cotidiano, no espírito nostálgico dos anos 2000."
+url: "https://fotolog.guineves.com.br"
+baseurl: ""
+og_image: "/assets/og-image.png"
+lang: "pt-BR"
+timezone: "America/Sao_Paulo"
+
+# Links dos outros sites da rede guineves.com.br
+main_site: "https://guineves.com.br"
+blog_site: "https://blog.guineves.com.br"
+recipes_site: "https://receitas.guineves.com.br"
+
+author:
+  name: "Guilherme Neves"
+  username: "guineves"
+  location: "Atibaia, SP"
+  bio: "Registrando o cotidiano sem filtros, em 3:4 e baixa resolução. Inspirado nos clássicos fotologs dos anos 2000."
+  avatar: "/assets/avatar.png"
+  main_site: "https://guineves.com.br"
+  blog_site: "https://blog.guineves.com.br"
+  recipes_site: "https://receitas.guineves.com.br"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+permalink: /:year/:month/:day/:slug/
+future: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+exclude:
+  - commit.sh
+  - publish.sh
+  - nova-foto.sh
+  - README.md
