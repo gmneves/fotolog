@@ -1,0 +1,267 @@
+{% assign p = include.post %}
+
+<div class="flog-grid">
+
+  <!-- Coluna da Foto Principal -->
+  <section class="photo-column">
+
+    <!-- Navegação Anterior / Próxima -->
+    <div class="photo-nav-bar">
+      <div class="nav-prev">
+        {% if p.previous %}
+          <a href="{{ p.previous.url | relative_url }}" title="{{ p.previous.title }}">« anterior ({{ p.previous.date | date: "%d/%m" }})</a>
+        {% elsif include.is_home and site.posts.size > 1 %}
+          <a href="{{ site.posts[1].url | relative_url }}" title="{{ site.posts[1].title }}">« anterior ({{ site.posts[1].date | date: "%d/%m" }})</a>
+        {% else %}
+          <span class="nav-disabled">« primeira foto</span>
+        {% endif %}
+      </div>
+
+      <div class="nav-current-info">
+        {% if include.is_home %}
+          <span class="badge-today">★ FOTO DE HOJE</span>
+        {% endif %}
+        <span>{{ p.date | date: "%d.%m.%Y" }}</span>
+      </div>
+
+      <div class="nav-next">
+        {% if p.next %}
+          <a href="{{ p.next.url | relative_url }}" title="{{ p.next.title }}">próxima ({{ p.next.date | date: "%d/%m" }}) »</a>
+        {% else %}
+          <span class="nav-disabled">foto mais recente »</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Moldura da Foto 3:4 Retrô -->
+    <article class="photo-card">
+      <div class="photo-frame">
+        {% if p.photo %}
+          <img src="{{ p.photo | relative_url }}" alt="{{ p.title }}" class="main-photo" loading="eager">
+        {% else %}
+          <div class="photo-placeholder">
+            <span>[ foto sem imagem ]</span>
+          </div>
+        {% endif %}
+
+        {% if p.date_stamp %}
+          <div class="analog-timestamp">{{ p.date_stamp }}</div>
+        {% else %}
+          <div class="analog-timestamp">{{ p.date | date: "'%y %m %d" }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Título e Metadados do Post -->
+      <header class="photo-header">
+        <h1 class="photo-title">
+          <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+        </h1>
+        <div class="photo-date-line">
+          publicado em {{ p.date | date: "%d/%m/%Y às %H:%M" }}
+        </div>
+      </header>
+
+      <!-- Painel de Metadados Retrô (Humor, Música, Local, Câmera) -->
+      <div class="meta-box">
+        {% if p.location %}
+          <div class="meta-item"><span class="meta-icon">📍</span> <strong>Onde:</strong> {{ p.location }}</div>
+        {% endif %}
+        {% if p.mood %}
+          <div class="meta-item"><span class="meta-icon">☕</span> <strong>Humor:</strong> {{ p.mood }}</div>
+        {% endif %}
+        {% if p.music %}
+          <div class="meta-item"><span class="meta-icon">🎧</span> <strong>Ouvindo:</strong> {{ p.music }}</div>
+        {% endif %}
+        {% if p.camera %}
+          <div class="meta-item"><span class="meta-icon">📷</span> <strong>Câmera:</strong> {{ p.camera }}</div>
+        {% else %}
+          <div class="meta-item"><span class="meta-icon">📷</span> <strong>Câmera:</strong> 3:4 crua / sem edição</div>
+        {% endif %}
+      </div>
+
+      <!-- Texto / Legenda do Autor -->
+      <div class="photo-caption">
+        {{ p.content }}
+      </div>
+
+      <!-- Ações (Compartilhar / Permalink) -->
+      <div class="photo-actions">
+        <a href="https://api.whatsapp.com/send?text={{ p.title | append: ' — Fotolog do Gui: ' | append: site.url | append: p.url | url_encode }}" class="btn-retro" target="_blank" rel="noopener">
+          💬 mandar no zap
+        </a>
+        <button class="btn-retro copy-link-btn" type="button" data-url="{{ p.url | absolute_url }}">
+          🔗 copiar link
+        </button>
+      </div>
+
+    </article>
+
+    <!-- Livro de Visitas / Recados (Guestbook Nostálgico) -->
+    <section class="comments-section">
+      <div class="comments-header">
+        <div class="comments-title">
+          <span>💬</span> Livro de Visitas / Recados
+        </div>
+        <div class="gold-badge">
+          limite: 20/20 (Gold Camera ativa)
+        </div>
+      </div>
+
+      <div class="guestbook-list">
+        {% if p.comments %}
+          {% for c in p.comments %}
+            <div class="comment-item">
+              <div class="comment-author-line">
+                <span class="c-author">{% if c.url %}<a href="{{ c.url }}" target="_blank" rel="noopener">{{ c.author }}</a>{% else %}{{ c.author }}{% endif %}</span>
+                <span class="c-date">{{ c.date }}</span>
+              </div>
+              <div class="comment-body">
+                {{ c.text }}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- Mensagem padrão estilo anos 2000 -->
+          <div class="comment-item">
+            <div class="comment-author-line">
+              <span class="c-author">flog_nostalgia</span>
+              <span class="c-date">02/11/2026 21:50</span>
+            </div>
+            <div class="comment-body">
+              muito massa a foto cara!! passa no meu fotolog depois? add nos favoritos! flw abraço!!
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="guestbook-form-card">
+        <p class="guestbook-hint">💬 Quer mandar um recado ou comentar essa foto?</p>
+        <div class="guestbook-btns">
+          <a href="https://api.whatsapp.com/send?text={{ 'Fala Gui! Vi sua foto no fotolog (' | append: p.title | append: '): ' | append: site.url | append: p.url | url_encode }}" class="btn-action-primary" target="_blank" rel="noopener">
+            ✉️ Enviar recado pelo WhatsApp
+          </a>
+          <a href="mailto:gmneves@gmail.com?subject={{ 'Recado no Fotolog: ' | append: p.title | url_encode }}" class="btn-action-secondary">
+            📧 Deixar recado por e-mail
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+  <!-- Coluna Lateral (Perfil, Miniaturas, Amigos) -->
+  <aside class="sidebar-column">
+
+    <!-- Card de Perfil -->
+    <div class="sidebar-box profile-box">
+      <div class="box-header">
+        <span>👤</span> PERFIL DO AUTOR
+      </div>
+      <div class="box-body">
+        <div class="avatar-row">
+          <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}" class="sidebar-avatar">
+          <div class="avatar-info">
+            <span class="user-nickname">{{ site.author.username }}</span>
+            <span class="user-status"><span class="dot-online"></span> online agora</span>
+            <span class="user-loc">{{ site.author.location }}</span>
+          </div>
+        </div>
+        <p class="profile-bio">{{ site.author.bio }}</p>
+        <div class="profile-badges">
+          <span class="badge-mini">📷 3:4 ONLY</span>
+          <span class="badge-mini">⭐ GOLD VIP</span>
+          <span class="badge-mini">💾 WEB 2000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini Galeria (Últimas Fotos / Miniaturas 3:4) -->
+    <div class="sidebar-box">
+      <div class="box-header">
+        <span>🎞️</span> ÚLTIMAS FOTOS
+      </div>
+      <div class="box-body">
+        <div class="mini-gallery-grid">
+          {% for post in site.posts limit:6 %}
+            <a href="{{ post.url | relative_url }}" class="mini-thumb-link {% if post.url == p.url %}active-thumb{% endif %}" title="{{ post.title }} ({{ post.date | date: '%d/%m' }})">
+              {% if post.photo %}
+                <img src="{{ post.photo | relative_url }}" alt="{{ post.title }}" class="mini-thumb">
+              {% else %}
+                <div class="mini-thumb-placeholder">📷</div>
+              {% endif %}
+              <span class="thumb-date">{{ post.date | date: "%d/%m" }}</span>
+            </a>
+          {% endfor %}
+        </div>
+        <div class="box-footer-link">
+          <a href="{{ '/arquivo/' | relative_url }}">» ver arquivo completo (miniaturas)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flogmarks / Amigos Favoritos -->
+    <div class="sidebar-box">
+      <div class="box-header">
+        <span>⭐</span> FLOGMARKS / AMIGOS
+      </div>
+      <div class="box-body">
+        <ul class="flogmarks-list">
+          <li>
+            <a href="{{ site.main_site | default: 'https://guineves.com.br' }}" target="_blank" rel="noopener">» guineves.com.br</a>
+            <span class="flogmark-desc">portfólio & currículo</span>
+          </li>
+          <li>
+            <a href="{{ site.blog_site | default: 'https://blog.guineves.com.br' }}" target="_blank" rel="noopener">» blog.guineves.com.br</a>
+            <span class="flogmark-desc">linux, bash & infra</span>
+          </li>
+          <li>
+            <a href="{{ site.recipes_site | default: 'https://receitas.guineves.com.br' }}" target="_blank" rel="noopener">» receitas.guineves.com.br</a>
+            <span class="flogmark-desc">caderno de receitas</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Estatísticas Retrô & Contador de Visitas -->
+    <div class="sidebar-box">
+      <div class="box-header">
+        <span>📊</span> STATS DO FLOG
+      </div>
+      <div class="box-body stats-body">
+        <div class="stat-line">
+          <span>Fotos publicadas:</span>
+          <strong>{{ site.posts | size }}</strong>
+        </div>
+        <div class="stat-line">
+          <span>Status da conta:</span>
+          <strong style="color: var(--amber);">Gold Member</strong>
+        </div>
+        <div class="stat-line">
+          <span>Formato:</span>
+          <strong>3:4 (sem filtros)</strong>
+        </div>
+        <div class="counter-box">
+          <span class="counter-label">VISITANTES:</span>
+          <div class="odometer-digits">
+            <span>0</span><span>0</span><span>1</span><span>3</span><span>3</span><span>7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-link-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.getAttribute('data-url') || window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = 'copiado!';
+        setTimeout(() => btn.innerText = orig, 2000);
+      });
+    });
+  });
+</script>

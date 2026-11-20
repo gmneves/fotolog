@@ -1,0 +1,14 @@
+---
+layout: default
+title: "início"
+---
+
+{% assign latest_post = site.posts.first %}
+{% if latest_post %}
+  {% include flog_view.html post=latest_post is_home=true %}
+{% else %}
+  <div class="empty-state">
+    <h2>Nenhuma foto publicada ainda</h2>
+    <p>Use o script <code>./nova-foto.sh</code> para subir a primeira foto do fotolog.</p>
+  </div>
+{% endif %}
